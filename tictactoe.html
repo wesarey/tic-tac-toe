@@ -1,0 +1,188 @@
+<html>
+    <head>
+        <style>
+            #gameBoard {
+                text-align: center;
+            }
+
+            #gameBoard table {
+                margin: 0 auto;
+                padding: 0;
+                border-spacing: 0;
+            }            
+
+            td {
+                padding: 0;
+                width: 50px;
+                height: 50px;
+                border: 1px solid black;
+                text-align: center;
+                vertical-align: middle;
+            }
+
+            #c1 {
+                border-top:0;
+                border-left:0;
+            }
+
+            #c2 {
+                border-top:0;                
+            }
+
+            #c3 {
+                border-top:0;
+                border-right:0;
+            }
+
+            #c4 {               
+                border-left:0;
+            }
+
+            #c6 {                
+                border-right:0;
+            }
+
+            #c7 {
+                border-bottom:0;
+                border-left:0;
+            }
+
+            #c8 {
+                border-bottom:0;
+            }
+
+            #c9 {
+                border-bottom:0;
+                border-right:0;
+            }
+
+            #header {
+                width: 100%;
+                text-align: center;
+            }
+
+            #currentTurn {
+                margin: 0 auto;
+            }
+        </style>        
+    </head>
+    <body>
+        <p>
+            <div id="header">
+                <div id="currentTurn">
+                    <div>Current Turn:</div>
+                    <div id="currentTurnDisplay"></div>
+                </div>
+            </div>
+        </p>    
+        <p>
+            <div id="gameBoard">            
+                <table>
+                    <tr>
+                        <td id="c1" onclick='tdclick(event)'></td>
+                        <td id="c2" onclick='tdclick(event)'></td>
+                        <td id="c3" onclick='tdclick(event)'></td>
+                    </tr>
+                    <tr>
+                        <td id="c4" onclick='tdclick(event)'></td>
+                        <td id="c5" onclick='tdclick(event)'></td>
+                        <td id="c6" onclick='tdclick(event)'></td>
+                    </tr>
+                    <tr>
+                        <td id="c7" onclick='tdclick(event)'></td>
+                        <td id="c8" onclick='tdclick(event)'></td>
+                        <td id="c9" onclick='tdclick(event)'></td>
+                    </tr>
+                </table>
+            </div>
+        </p> 
+    </body>    
+    <script>
+        var currentTurn='x';
+        var gameOver=false;
+        document.getElementById("currentTurnDisplay").innerHTML = currentTurn;
+
+        function tdclick(e) {
+            // don't do anything if the game is over
+            if(gameOver) {
+                return;
+            }
+
+            // determine which box was clicked
+            var clickedId = e.currentTarget.id;
+            var clicked = document.getElementById(clickedId);
+
+            // check if the box is already occupied
+            if(clicked.innerHTML) {
+                alert('already picked');
+                return;
+            } else {
+                clicked.innerHTML = currentTurn;
+                checkWinConditions();
+                changeTurn();                
+            }                        
+        }
+
+        function changeTurn() {
+            if(currentTurn === 'x') {
+                currentTurn = 'o';
+            }
+            else {
+                currentTurn = 'x';
+            }
+            document.getElementById("currentTurnDisplay").innerHTML = currentTurn;
+        }
+
+        function checkWinConditions() {
+            
+            var cell1 = document.getElementById('c1').innerHTML;
+            var cell2 = document.getElementById('c2').innerHTML;
+            var cell3 = document.getElementById('c3').innerHTML;
+            var cell4 = document.getElementById('c4').innerHTML;
+            var cell5 = document.getElementById('c5').innerHTML;
+            var cell6 = document.getElementById('c6').innerHTML;
+            var cell7 = document.getElementById('c7').innerHTML;
+            var cell8 = document.getElementById('c8').innerHTML;
+            var cell9 = document.getElementById('c9').innerHTML;
+
+            
+            // 123
+            if(currentTurn === cell1 && currentTurn === cell2 && currentTurn === cell3){
+                endGame();
+            }
+            // 456
+            if(currentTurn === cell4 && currentTurn === cell5 && currentTurn === cell6){
+                endGame();
+            }
+            // 789
+            if(currentTurn === cell7 && currentTurn === cell8 && currentTurn === cell9){
+                endGame();
+            }
+            // 147
+            if(currentTurn === cell1 && currentTurn === cell4 && currentTurn === cell7){
+                endGame();
+            }
+            // 258
+            if(currentTurn === cell2 && currentTurn === cell5 && currentTurn === cell8){
+                endGame();
+            }
+            // 369
+            if(currentTurn === cell3 && currentTurn === cell6 && currentTurn === cell9){
+                endGame();
+            }
+            // 159
+            if(currentTurn === cell1 && currentTurn === cell5 && currentTurn === cell9){
+                endGame();
+            }
+            // 357
+            if(currentTurn === cell3 && currentTurn === cell5 && currentTurn === cell7){
+                endGame();
+            }
+        }
+
+        function endGame() {
+            gameOver = true;
+            alert(currentTurn + " WINS!!");
+        }
+    </script>
+</html>
